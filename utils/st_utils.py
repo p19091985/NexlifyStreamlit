@@ -13,7 +13,7 @@ def st_check_session():
     """
     if 'user_info' not in st.session_state or st.session_state.user_info is None:
         st.warning("Acesso negado. Por favor, faça o login.")
-        st.switch_page("main.py")
+        st.switch_page("Home.py")
         st.stop()
 
                                             
@@ -32,7 +32,7 @@ def st_check_session():
             for key in st.session_state.keys():
                 del st.session_state[key]
 
-            st.switch_page("main.py")
+            st.switch_page("Home.py")
             st.stop()
 
 

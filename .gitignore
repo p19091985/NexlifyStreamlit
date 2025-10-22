@@ -3,6 +3,7 @@
 *.log
 *.logs
 *.db
+*.bak
 config_settings.ini.bak
 /documentacao
 

@@ -159,7 +159,7 @@ Execute este script em seu SGBD para criar as tabelas e inserir os dados iniciai
 Com tudo configurado, inicie o servidor Streamlit:
 
 ```bash
-streamlit run main.py
+streamlit run Home.py
 ```
 
 A aplicação será aberta no seu navegador. As credenciais padrão são `admin / admin123`.

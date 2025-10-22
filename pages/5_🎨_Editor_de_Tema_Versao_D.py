@@ -254,6 +254,6 @@ with main_cols[1]:
 
                                                   
 
-        st.dataframe(df, use_container_width=True, hide_index=True)
+        st.dataframe(df,width='stretch' , hide_index=True)
 
         st.markdown('</div>', unsafe_allow_html=True)  

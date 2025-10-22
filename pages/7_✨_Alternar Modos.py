@@ -23,7 +23,7 @@ st.info("""
 """)
 st.success("""
     **Sistema de Validação Integrado!**
-    Ao iniciar, a aplicação verifica automaticamente (`main.py`) se as flags em `config.py`
+    Ao iniciar, a aplicação verifica automaticamente (`Home.py`) se as flags em `config.py`
     formam uma combinação lógica. Combinações inválidas (ex: exigir login sem banco de dados)
     impedirão a inicialização, exibindo uma mensagem de erro clara.
 """)
@@ -45,7 +45,7 @@ with st.expander("📚 1. Detalhamento das Flags de Configuração (`config.py`)
     st.subheader("`USE_LOGIN` (Boolean)")
     st.markdown("""
         * **Propósito:** Habilita ou desabilita a tela/sistema de autenticação de usuários.
-        * **`True` (Recomendado para Produção):** Exige que o usuário faça login através da tela inicial (`main.py`). As permissões de acesso definidas no banco de dados (`check_access`) serão aplicadas. **Requer `DATABASE_ENABLED = True`**.
+        * **`True` (Recomendado para Produção):** Exige que o usuário faça login através da tela inicial (`Home.py`). As permissões de acesso definidas no banco de dados (`check_access`) serão aplicadas. **Requer `DATABASE_ENABLED = True`**.
         * **`False` (Modo de Desenvolvimento Rápido):** Pula completamente a tela de login. Um usuário *mock* (simulado) com permissões de Administrador Global é criado automaticamente na sessão. Ideal para testar rapidamente funcionalidades internas sem precisar logar repetidamente.
     """)
 
@@ -60,7 +60,7 @@ with st.expander("📚 1. Detalhamento das Flags de Configuração (`config.py`)
     st.markdown("""
         * **Propósito:** Define para onde as saídas padrão do console (`print`, erros, logs de bibliotecas) serão direcionadas.
         * **`True` (Recomendado para Produção/Debugging Centralizado):** Todas as saídas do console são redirecionadas para os arquivos de log rotativos na pasta `logs/` (`app.log`, `login.log`). Isso centraliza o rastreamento e evita poluir o terminal onde o Streamlit foi iniciado.
-        * **`False` (Útil para Debugging Rápido):** As saídas (`print`, `logging`, erros) aparecem diretamente no terminal onde você executou `streamlit run main.py`. Facilita a visualização imediata durante o desenvolvimento ativo.
+        * **`False` (Útil para Debugging Rápido):** As saídas (`print`, `logging`, erros) aparecem diretamente no terminal onde você executou `streamlit run Home.py`. Facilita a visualização imediata durante o desenvolvimento ativo.
     """)
 
                               
@@ -109,7 +109,7 @@ REDIRECT_CONSOLE_TO_LOG = False       # Vê prints/erros de UI no terminal
 st.subheader("❌ Cenários Inválidos (Bloqueados Automaticamente)")
 st.markdown("""
     As combinações a seguir são ilógicas e **serão bloqueadas** pelo validador
-    no `main.py` ao iniciar a aplicação. Uma mensagem de erro específica será exibida.
+    no `Home.py` ao iniciar a aplicação. Uma mensagem de erro específica será exibida.
 """)
 
 with st.container(border=True):
