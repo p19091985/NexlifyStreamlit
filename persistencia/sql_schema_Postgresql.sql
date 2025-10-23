@@ -28,7 +28,23 @@ CREATE TABLE usuarios (
         'Supervisor de Produção', 'Operador de Linha', 'Analista de Dados', 'Auditor Externo'
     ))
 );
-
+CREATE TABLE tipos_vegetais (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL UNIQUE
+);
+CREATE TABLE vegetais (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    id_tipo INT,
+    FOREIGN KEY (id_tipo) REFERENCES tipos_vegetais(id) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+CREATE TABLE log_alteracoes (
+    id SERIAL PRIMARY KEY,
+    timestamp TIMESTAMP NOT NULL,
+    login_usuario VARCHAR(255),
+    acao TEXT,
+    FOREIGN KEY (login_usuario) REFERENCES usuarios(login_usuario) ON DELETE SET NULL ON UPDATE CASCADE
+);
 CREATE TABLE especie_gatos (
     id SERIAL PRIMARY KEY,
     nome_especie VARCHAR(255) NOT NULL UNIQUE,

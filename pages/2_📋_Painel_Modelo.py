@@ -3,44 +3,44 @@ import sys
 import os
 from utils.st_utils import st_check_session, check_access
 
-# =============================================================================
-# 1. CONFIGURAÇÃO DA PÁGINA E VERIFICAÇÃO DE ACESSO
-# =============================================================================
+                                                                               
+                                                   
+                                                                               
 
 st.set_page_config(page_title="Painel Modelo", layout="wide")
 
-# Verifica se o usuário está logado e se tem permissão
+                                                      
 st_check_session()
-check_access([])  # Lista vazia significa que todos os logados podem ver
+check_access([])                                                        
 
 
-# =============================================================================
-# 2. INICIALIZAÇÃO DO ESTADO DA PÁGINA (st.session_state)
-# =============================================================================
+                                                                               
+                                                         
+                                                                               
 
-# (Esta página é simples e não precisa de estado,
-# mas aqui é onde você colocaria:)
-#
-# if "variavel_exemplo" not in st.session_state:
-#     st.session_state.variavel_exemplo = "Valor Padrão"
+                                                 
+                                  
+ 
+                                                
+                                                        
 
-# =============================================================================
-# 3. FUNÇÕES DE ACESSO AO BANCO DE DADOS (Lógica "Repository")
-# =============================================================================
+                                                                               
+                                                              
+                                                                               
 
-# (Esta página não acessa o banco,
-# mas aqui é onde você colocaria suas funções de CRUD:)
-#
-# def get_all_items():
-#     return GenericRepository.read_table_to_dataframe('nome_tabela')
-#
-# def add_item(nome):
-#     df = pd.DataFrame([{'nome': nome}])
-#     GenericRepository.write_dataframe_to_table(df, 'nome_tabela')
+                                  
+                                                       
+ 
+                      
+                                                                     
+ 
+                     
+                                         
+                                                                   
 
-# =============================================================================
-# 4. FUNÇÕES DE LÓGICA DE UI (Lógica "Controller" / Callbacks)
-# =============================================================================
+                                                                               
+                                                              
+                                                                               
 
 def handle_test_interaction():
     """
@@ -55,9 +55,9 @@ def handle_test_interaction():
         st.error(f"Erro ao testar interação: {e}")
 
 
-# =============================================================================
-# 5. FUNÇÕES DE RENDERIZAÇÃO DA INTERFACE (Lógica "View")
-# =============================================================================
+                                                                               
+                                                         
+                                                                               
 
 def render_main_panel():
     """
@@ -96,7 +96,7 @@ def render_main_panel():
         """)
         st.divider()
 
-        # O 'on_click' agora chama nossa função local 'handle_test_interaction'
+                                                                               
         st.button(
             "Testar Interação",
             type="primary",
@@ -104,10 +104,10 @@ def render_main_panel():
         )
 
 
-# =============================================================================
-# 6. EXECUÇÃO PRINCIPAL DA PÁGINA
-# (Este é o "cérebro" que decide o que mostrar e quando)
-# =============================================================================
+                                                                               
+                                 
+                                                        
+                                                                               
 
-# Simplesmente chamamos nossa função principal de renderização
+                                                              
 render_main_panel()

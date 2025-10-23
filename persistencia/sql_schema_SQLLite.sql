@@ -12,8 +12,26 @@ CREATE TABLE usuarios (
         'Supervisor de Produção', 'Operador de Linha', 'Analista de Dados', 'Auditor Externo'
     ))
 );
-
-
+CREATE TABLE tipos_vegetais (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL UNIQUE
+);
+CREATE TABLE vegetais (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    id_tipo INTEGER,
+    FOREIGN KEY (id_tipo) REFERENCES tipos_vegetais (id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);
+CREATE TABLE log_alteracoes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp DATETIME NOT NULL,
+    login_usuario TEXT,
+    acao TEXT,
+    FOREIGN KEY (login_usuario) REFERENCES usuarios (login_usuario)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
 );
 CREATE TABLE especie_gatos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
