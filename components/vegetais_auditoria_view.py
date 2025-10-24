@@ -1,7 +1,6 @@
                                        
 import streamlit as st
 
-
 class VegetaisAuditoriaView:
     def __init__(self, controller):
         self.controller = controller
@@ -10,14 +9,12 @@ class VegetaisAuditoriaView:
         """Renderiza a página inteira de Vegetais e Auditoria."""
         st.title("🌿 Vegetais e Auditoria")
 
-                                                     
         self._render_transaction_section()
         if st.session_state.veg_show_tipo_form:
             self._render_tipo_form()
 
         st.divider()
 
-                                                
         col1, col2 = st.columns([3, 2])
         with col1:
             self._render_vegetais_table()

@@ -1,21 +1,17 @@
 import streamlit as st
 from utils.st_utils import st_check_session
 
-                        
 st.set_page_config(
     page_title="Sobre o Sistema",
     layout="centered",                                                      
     page_icon="🚀"
 )
 
-                                                                
 st_check_session()
 
-                  
 st.markdown("# 🚀 Sobre Este Sistema: Arquitetura e Propósito")
 st.markdown("---")
 
-                                
 st.info("""
     **Sistema de Demonstração - Versão 2.0 (Streamlit)**
 
@@ -25,7 +21,6 @@ st.info("""
     do back-end.
 """)
 
-                      
 st.subheader("🏗️ Arquitetura Preservada e Aprimorada")
 st.markdown("""
     A lógica de negócios e o acesso aos dados foram cuidadosamente mantidos e
@@ -47,7 +42,6 @@ st.markdown("""
         * Graças à padronização recente (nomes de tabelas/colunas em minúsculas e SQL mais genérico), o sistema agora suporta nativamente **SQLite, PostgreSQL, MySQL/MariaDB e SQL Server**, bastando configurar o `banco.ini`.
 """)
 
-                                
 st.subheader("🖥️ Interface com Streamlit")
 st.markdown("""
     A interface foi redesenhada utilizando os componentes nativos do Streamlit:

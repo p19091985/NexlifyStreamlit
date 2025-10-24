@@ -6,7 +6,7 @@
 *.bak
 config_settings.ini.bak
 /documentacao
-
+*.csv
 
 __pycache__/
 *.py[codz]

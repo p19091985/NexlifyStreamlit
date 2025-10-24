@@ -1,6 +1,5 @@
 import streamlit as st
 
-
 class GatosView:
     def __init__(self, controller):
         self.controller = controller
@@ -38,7 +37,6 @@ class GatosView:
             row_cols[2].write(row_data['temperamento'])
             row_cols[3].button("✏️", key=f"edit_{row_data['id']}", on_click=self.controller.open_form, args=(row_data,))
 
-                                      
             popover = row_cols[4].popover("🗑️")
             popover.warning(f"Excluir '{row_data['nome_especie']}'?")
             popover.button("Confirmar Exclusão", key=f"del_{row_data['id']}", on_click=self.controller.delete_item,

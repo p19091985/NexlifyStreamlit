@@ -4,7 +4,6 @@ import config
 from persistencia.repository import GenericRepository
 from components.gatos_view import GatosView
 
-
 class GatosController:
     def __init__(self):
         self.view = GatosView(self)
@@ -42,19 +41,16 @@ class GatosController:
             if is_edit_mode:
                 item = st.session_state.editing_item
                 update_values = {'nome_especie': nome.strip(), 'pais_origem': origem.strip(),  
-                                 'temperamento': temperamento.strip()}  
+                                 'temperamento': temperamento.strip()}
 
-                                      
-                where = {'id': int(item['id'])}  
+                where = {'id': int(item['id'])}
 
-                                                  
                 GenericRepository.update_table('especie_gatos', update_values, where)  
                 st.toast(f"'{nome}' atualizado com sucesso!", icon="✅")  
             else:
                 df = pd.DataFrame([{'nome_especie': nome.strip(), 'pais_origem': origem.strip(),
                                     'temperamento': temperamento.strip()}])
 
-                                                  
                 GenericRepository.write_dataframe_to_table(df, 'especie_gatos')  
                 st.toast(f"'{nome}' cadastrado com sucesso!", icon="🎉")
 
@@ -75,9 +71,8 @@ class GatosController:
     def get_all_gatos(self):
         try:
                                               
-            df = GenericRepository.read_table_to_dataframe('especie_gatos')  
+            df = GenericRepository.read_table_to_dataframe('especie_gatos')
 
-                                                                              
             return df   
         except Exception as e:
             st.error(f"Não foi possível carregar as espécies. Detalhe: {e}")

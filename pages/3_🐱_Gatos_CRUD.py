@@ -1,9 +1,6 @@
 import streamlit as st
 import sys                                             
-import os                                              
-
-                        
-                                                                                    
+import os
 
 from utils.st_utils import st_check_session, check_access
 from components.gatos_controller import GatosController   

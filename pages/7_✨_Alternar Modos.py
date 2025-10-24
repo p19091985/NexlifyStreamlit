@@ -1,21 +1,17 @@
 import streamlit as st
 from utils.st_utils import st_check_session
 
-                        
 st.set_page_config(
     page_title="Guia de Configuração",
     layout="wide",                                       
     page_icon="⚙️"
 )
 
-                                   
 st_check_session()
 
-                  
 st.header("⚙️ Guia de Configuração e Modos de Operação")
 st.markdown("---")
 
-                        
 st.info("""
     Esta aplicação oferece flexibilidade através de flags de configuração no arquivo `config.py`.
     Essas flags permitem ajustar o comportamento do sistema para diferentes ambientes,
@@ -28,7 +24,6 @@ st.success("""
     impedirão a inicialização, exibindo uma mensagem de erro clara.
 """)
 
-                               
 with st.expander("📚 1. Detalhamento das Flags de Configuração (`config.py`)", expanded=True):
     st.markdown("""
         Para alterar o modo de operação, edite o arquivo `config.py` na raiz do projeto
@@ -63,7 +58,6 @@ with st.expander("📚 1. Detalhamento das Flags de Configuração (`config.py`)
         * **`False` (Útil para Debugging Rápido):** As saídas (`print`, `logging`, erros) aparecem diretamente no terminal onde você executou `streamlit run Home.py`. Facilita a visualização imediata durante o desenvolvimento ativo.
     """)
 
-                              
 st.header("💡 2. Cenários Comuns e Combinações de Flags")
 st.markdown("""
     A combinação correta das flags permite adaptar a aplicação às suas necessidades.
@@ -104,7 +98,6 @@ INITIALIZE_DATABASE_ON_STARTUP = False  # Obrigatório ser False se DB está des
 REDIRECT_CONSOLE_TO_LOG = False       # Vê prints/erros de UI no terminal
     """, language="python")
     st.markdown("**Comportamento:** A aplicação funciona sem banco de dados. O login é pulado. Páginas que dependem de dados exibirão um aviso de 'Funcionalidade Indisponível', mas a navegação entre páginas e a interação com widgets visuais funcionarão normalmente.")
-
 
 st.subheader("❌ Cenários Inválidos (Bloqueados Automaticamente)")
 st.markdown("""

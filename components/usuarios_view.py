@@ -1,7 +1,5 @@
 import streamlit as st
 
-                                                     
-                                                                         
 PERFIS_DE_ACESSO = [
     'Administrador Global',
     'Diretor de Operações',
@@ -11,7 +9,6 @@ PERFIS_DE_ACESSO = [
     'Analista de Dados',
     'Auditor Externo'
 ]
-
 
 class UsuariosView:
     def __init__(self, controller):
@@ -39,28 +36,23 @@ class UsuariosView:
             st.info("Nenhum usuário cadastrado. Clique em 'Adicionar' para começar.")
             return
 
-                             
         header_cols = st.columns([2, 3, 2, 1, 1])
         header_cols[0].markdown("**Login (ID)**")
         header_cols[1].markdown("**Nome Completo**")
         header_cols[2].markdown("**Perfil de Acesso**")
         header_cols[3].markdown("**Ações**")
 
-                          
         for index, row in df_users.iterrows():
             row_data = row.to_dict()
             row_cols = st.columns([2, 3, 2, 1, 1])
 
-                                                                        
             row_cols[0].write(row_data['login_usuario'])
             row_cols[1].write(row_data['nome_completo'])
             row_cols[2].write(row_data['tipo_acesso'])
 
-                             
             row_cols[3].button("✏️", key=f"edit_{row_data['login_usuario']}",
                                on_click=self.controller.open_form, args=(row_data,))
 
-                                              
             popover = row_cols[4].popover("🗑️", help=f"Excluir {row_data['login_usuario']}?")
             popover.warning(f"Confirmar exclusão de '{row_data['nome_completo']}'?")
             popover.button("Confirmar", key=f"del_{row_data['login_usuario']}",
@@ -89,7 +81,6 @@ class UsuariosView:
                     value=item.get("nome_completo", "")
                 )
 
-                                                            
                 default_index = 0
                 if is_edit_mode and item.get("tipo_acesso") in PERFIS_DE_ACESSO:
                     default_index = PERFIS_DE_ACESSO.index(item.get("tipo_acesso"))
@@ -100,7 +91,6 @@ class UsuariosView:
                     index=default_index
                 )
 
-                                
                 password_help = ("Deixe em branco para manter a senha atual." if is_edit_mode
                                  else "Senha obrigatória para novos usuários.")
                 password = st.text_input(
@@ -109,7 +99,6 @@ class UsuariosView:
                     help=password_help
                 )
 
-                                
                 form_cols = st.columns(2)
                 submitted = form_cols[0].form_submit_button("Salvar", type="primary", width='stretch')
                 cancelled = form_cols[1].form_submit_button("Cancelar", width='stretch')

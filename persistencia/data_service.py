@@ -3,7 +3,6 @@ from sqlalchemy import text, exc
 from .repository import GenericRepository
 import logging
 
-
 class DataService:
     """
     Classe de serviço para executar operações de negócio complexas e transações atômicas.
@@ -30,7 +29,6 @@ class DataService:
                         return False, f"Vegetal '{nome_vegetal}' não encontrado."
                     id_vegetal, id_tipo_antigo = res_vegetal
 
-                                                              
                     res_novo_tipo = connection.execute(
                         text("SELECT id FROM tipos_vegetais WHERE nome = :nome"),
                         {'nome': novo_tipo_nome}
@@ -42,7 +40,6 @@ class DataService:
                     if id_tipo_antigo == id_novo_tipo:
                         return False, "O vegetal já pertence a este tipo."
 
-                                                              
                     connection.execute(
                         text("UPDATE vegetais SET id_tipo = :id_tipo WHERE id = :id_vegetal"),
                         {'id_tipo': id_novo_tipo, 'id_vegetal': id_vegetal}
@@ -51,7 +48,6 @@ class DataService:
                     acao_log = (f"O vegetal '{nome_vegetal}' (ID: {id_vegetal}) foi reclassificado "
                                 f"para o tipo '{novo_tipo_nome}' (ID: {id_novo_tipo}).")
 
-                                                                                    
                     connection.execute(
                         text("""
                              INSERT INTO log_alteracoes (timestamp, login_usuario, acao)
@@ -87,7 +83,6 @@ class DataService:
                     if res_check:
                         return False, f"O nome '{nome_novo}' já está em uso."
 
-                                                              
                     update_stmt = text("UPDATE especie_gatos SET nome_especie = :novo WHERE nome_especie = :antigo")
                     result = connection.execute(update_stmt, {'novo': nome_novo, 'antigo': nome_antigo})
 

@@ -5,7 +5,6 @@ from persistencia.repository import GenericRepository
 from persistencia.data_service import DataService
 from components.vegetais_auditoria_view import VegetaisAuditoriaView
 
-
 class VegetaisAuditoriaController:
     def __init__(self):
         self.view = VegetaisAuditoriaView(self)
@@ -32,7 +31,6 @@ class VegetaisAuditoriaController:
         """Abre o formulário para criar/editar um Tipo de Vegetal."""
         st.session_state.veg_editing_tipo_item = item
         st.session_state.veg_show_tipo_form = True
-                                                                        
 
     def close_tipo_form(self):
         """Fecha o formulário de Tipo de Vegetal."""

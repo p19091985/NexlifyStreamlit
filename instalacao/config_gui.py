@@ -32,7 +32,6 @@ except Exception as e:
                          f"Erro ao localizar/criar 'config_settings.ini' na pasta raiz do projeto: {e}")
     sys.exit(1)
 
-
 class ConfigApp(tk.Tk):
     def __init__(self, config_path):
         super().__init__()
@@ -43,13 +42,13 @@ class ConfigApp(tk.Tk):
         self.title("Configurador Inteligente (config_settings.ini)")
 
         w = 600
-        h = 550  # Altura reduzida
+        h = 550                   
         sw = self.winfo_screenwidth()
         sh = self.winfo_screenheight()
         x = (sw // 2) - (w // 2)
         y = (sh // 2) - (h // 2)
         self.geometry(f"{w}x{h}+{x}+{y}")
-        self.minsize(550, 550)  # Altura mínima reduzida
+        self.minsize(550, 550)                          
 
         self.db_enabled_var = tk.BooleanVar()
         self.init_db_var = tk.BooleanVar()
@@ -237,7 +236,6 @@ class ConfigApp(tk.Tk):
     def _update_status(self, message, color):
         """Atualiza o label de status principal."""
         self.status_label.config(text=message, foreground=color)
-
 
 if __name__ == "__main__":
     app = ConfigApp(config_file_path)

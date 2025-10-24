@@ -5,7 +5,6 @@ from persistencia.repository import GenericRepository
 from persistencia.auth import hash_password
 from components.usuarios_view import UsuariosView
 
-
 class UsuariosController:
     def __init__(self):
         self.view = UsuariosView(self)
@@ -51,12 +50,10 @@ class UsuariosController:
                 }
                 if password:
                     hashed_pw = hash_password(password)
-                    update_values['senha_criptografada'] = hashed_pw                  
+                    update_values['senha_criptografada'] = hashed_pw
 
-                                                                
                 where_conditions = {'login_usuario': login}
 
-                                                        
                 GenericRepository.update_table("usuarios", update_values, where_conditions)
                 st.toast(f"Usuário '{login}' atualizado com sucesso!", icon="✅")
 
@@ -67,7 +64,6 @@ class UsuariosController:
 
                 hashed_pw = hash_password(password)
 
-                                                            
                 df = pd.DataFrame([{
                     'login_usuario': login,
                     'senha_criptografada': hashed_pw,
@@ -75,7 +71,6 @@ class UsuariosController:
                     'tipo_acesso': tipo_acesso
                 }])
 
-                                                        
                 GenericRepository.write_dataframe_to_table(df, "usuarios")
                 st.toast(f"Usuário '{login}' criado com sucesso!", icon="🎉")
 
@@ -89,12 +84,10 @@ class UsuariosController:
 
     def delete_item(self, item: dict):
         try:
-            login_to_delete = item['login_usuario']                                      
+            login_to_delete = item['login_usuario']
 
-                                                            
             where_conditions = {'login_usuario': login_to_delete}
 
-                                                    
             GenericRepository.delete_from_table("usuarios", where_conditions)
             st.toast(f"Usuário '{login_to_delete}' excluído!", icon="🗑️")
             st.rerun()
