@@ -3,44 +3,11 @@ import sys
 import os
 from utils.st_utils import st_check_session, check_access
 
-                                                                               
-                                                   
-                                                                               
-
 st.set_page_config(page_title="Painel Modelo", layout="wide")
 
-                                                      
 st_check_session()
-check_access([])                                                        
+check_access([])
 
-
-                                                                               
-                                                         
-                                                                               
-
-                                                 
-                                  
- 
-                                                
-                                                        
-
-                                                                               
-                                                              
-                                                                               
-
-                                  
-                                                       
- 
-                      
-                                                                     
- 
-                     
-                                         
-                                                                   
-
-                                                                               
-                                                              
-                                                                               
 
 def handle_test_interaction():
     """
@@ -54,10 +21,6 @@ def handle_test_interaction():
     except Exception as e:
         st.error(f"Erro ao testar interação: {e}")
 
-
-                                                                               
-                                                         
-                                                                               
 
 def render_main_panel():
     """
@@ -96,7 +59,6 @@ def render_main_panel():
         """)
         st.divider()
 
-                                                                               
         st.button(
             "Testar Interação",
             type="primary",
@@ -104,10 +66,4 @@ def render_main_panel():
         )
 
 
-                                                                               
-                                 
-                                                        
-                                                                               
-
-                                                              
 render_main_panel()
