@@ -2,7 +2,6 @@ import streamlit as st
 import logging
 import config
 
-
 def st_check_session():
     """
     Verifica se o usuário está logado.
@@ -16,25 +15,21 @@ def st_check_session():
         st.switch_page("Home.py")
         st.stop()
 
-                                            
     if config.USE_LOGIN:
                              
         st.sidebar.title("Painel de Controle")
         st.sidebar.markdown(f"**Usuário:** `{st.session_state.user_info['name']}`")
         st.sidebar.markdown(f"**Perfil:** `{st.session_state.user_info['access_level']}`")
 
-                                                               
         if st.sidebar.button("🚪 Sair", width='stretch', type="primary"):
             logger = logging.getLogger("main_app")
             logger.info(f"Usuário '{st.session_state.user_info['username']}' fez logout.")
 
-                                    
             for key in st.session_state.keys():
                 del st.session_state[key]
 
             st.switch_page("Home.py")
             st.stop()
-
 
 def check_access(allowed_roles: list):
     """
@@ -48,11 +43,7 @@ def check_access(allowed_roles: list):
     if user_access_level not in allowed_roles:
         st.error("Você não tem permissão para acessar esta página.")
 
-                                                     
-                                                                  
-                                                 
         st.image("https://http.cat/401", width='stretch')
-                                                        
 
         st.stop()
 

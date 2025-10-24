@@ -8,7 +8,6 @@ st.set_page_config(page_title="Painel Modelo", layout="wide")
 st_check_session()
 check_access([])
 
-
 def handle_test_interaction():
     """
     Função chamada quando o botão "Testar Interação" é clicado.
@@ -20,7 +19,6 @@ def handle_test_interaction():
         st.balloons()
     except Exception as e:
         st.error(f"Erro ao testar interação: {e}")
-
 
 def render_main_panel():
     """
@@ -64,6 +62,5 @@ def render_main_panel():
             type="primary",
             on_click=handle_test_interaction
         )
-
 
 render_main_panel()

@@ -5,14 +5,10 @@ from persistencia.repository import GenericRepository
 from persistencia.auth import hash_password
 from utils.st_utils import st_check_session, check_access
 
-                                                       
-
 st.set_page_config(page_title="Gestão de Usuários", layout="wide")
 
 st_check_session()
 check_access(['Administrador Global', 'Gerente de TI'])
-
-                                                             
 
 if not config.DATABASE_ENABLED:
     st.title("👤 Gestão de Usuários")
@@ -29,16 +25,11 @@ PERFIS_DE_ACESSO = [
     'Auditor Externo'
 ]
 
-                                                          
-
 if "show_user_form" not in st.session_state:
     st.session_state.show_user_form = False
 
 if "editing_user_item" not in st.session_state:
     st.session_state.editing_user_item = None
-
-
-                                                     
 
 def get_all_users():
     """Busca todos os usuários no banco, removendo a senha."""
@@ -52,7 +43,6 @@ def get_all_users():
         st.error(f"Não foi possível carregar os usuários. Detalhe: {e}")
         return pd.DataFrame()
 
-
 def add_user(login, nome, tipo_acesso, password):
     """Adiciona um novo usuário ao banco de dados."""
     hashed_pw = hash_password(password)
@@ -63,7 +53,6 @@ def add_user(login, nome, tipo_acesso, password):
         'tipo_acesso': tipo_acesso
     }])
     GenericRepository.write_dataframe_to_table(df, "usuarios")
-
 
 def update_user(login, nome, tipo_acesso, password):
     """Atualiza um usuário existente no banco de dados."""
@@ -79,33 +68,26 @@ def update_user(login, nome, tipo_acesso, password):
     where_conditions = {'login_usuario': login}
     GenericRepository.update_table("usuarios", update_values, where_conditions)
 
-
 def delete_user(login):
     """Exclui um usuário do banco de dados."""
     where_conditions = {'login_usuario': login}
     GenericRepository.delete_from_table("usuarios", where_conditions)
-
-
-                                           
 
 def show_add_form():
     """Ativa o modo "Adicionar", mostrando o formulário vazio."""
     st.session_state.show_user_form = True
     st.session_state.editing_user_item = None
 
-
 def show_edit_form(item_data):
     """Ativa o modo "Editar", mostrando o formulário preenchido."""
     st.session_state.show_user_form = True
     st.session_state.editing_user_item = item_data
-
 
 def close_form_and_rerun():
     """Fecha o formulário e recarrega a página."""
     st.session_state.show_user_form = False
     st.session_state.editing_user_item = None
     st.rerun()
-
 
 def handle_save(form_data: dict):
     """Processa o clique no botão 'Salvar' do formulário."""
@@ -140,7 +122,6 @@ def handle_save(form_data: dict):
         else:
             st.error(f"Erro ao salvar: {e}")
 
-
 def handle_delete(item_data: dict):
     """Processa o clique no botão 'Confirmar Exclusão'."""
     try:
@@ -150,9 +131,6 @@ def handle_delete(item_data: dict):
         st.rerun()
     except Exception as e:
         st.error(f"Erro ao excluir: {e}")
-
-
-                                                  
 
 def render_form():
     """Desenha o formulário de Adicionar/Editar."""
@@ -208,7 +186,6 @@ def render_form():
             if cancelled:
                 close_form_and_rerun()
 
-
 def render_table():
     """Desenha a tabela com os usuários e os botões de ação."""
     st.divider()
@@ -248,9 +225,6 @@ def render_table():
             on_click=handle_delete,
             args=(row_data,)
         )
-
-
-                                               
 
 st.title("👤 Gestão de Usuários")
 st.markdown("Crie, edite ou remova usuários do sistema.")

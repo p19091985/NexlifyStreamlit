@@ -13,7 +13,6 @@ check_access(['Administrador Global', 'Gerente de TI'])
 
 CONFIG_PATH = Path(".streamlit/config.toml")
 
-                              
 PRESET_THEMES = {
     "☀️ Temas Claros": {
         "Padrão Streamlit": {"primaryColor": "#FF4B4B", "backgroundColor": "#FFFFFF",
@@ -98,7 +97,6 @@ PRESET_THEMES = {
     }
 }
 
-
 def load_config():
     if not CONFIG_PATH.is_file(): return PRESET_THEMES["☀️ Temas Claros"]["Padrão Streamlit"]
     try:
@@ -106,7 +104,6 @@ def load_config():
         return config.get("theme", PRESET_THEMES["☀️ Temas Claros"]["Padrão Streamlit"])
     except Exception:
         return PRESET_THEMES["☀️ Temas Claros"]["Padrão Streamlit"]  
-
 
 def save_config(theme_settings):
     try:
@@ -120,7 +117,6 @@ def save_config(theme_settings):
         st.balloons()
     except Exception as e:
         st.error(f"Não foi possível salvar a configuração: {e}")
-
 
 def restore_defaults():
     try:
@@ -137,15 +133,12 @@ def restore_defaults():
     except Exception as e:
         st.error(f"Não foi possível restaurar os padrões: {e}")  
 
-
 if 'current_theme' not in st.session_state:
     st.session_state.current_theme = load_config()
-
 
 def update_theme_value(theme_key, widget_key):
     if widget_key in st.session_state:
         st.session_state.current_theme[theme_key] = st.session_state[widget_key]
-
 
 st.title("🌟 Santuário do Design")
 st.caption("O centro de comando definitivo para a personalização visual da sua aplicação.")
@@ -251,8 +244,6 @@ with main_cols[1]:
             "Versão": ["1.2.0", "2.0.1", "3.4.0", "4.1.2"],
             "Status": ["✅ Ativo", "✅ Ativo", "⚠️ Manutenção", "❌ Descontinuado"]
         })
-
-                                                  
 
         st.dataframe(df,width='stretch' , hide_index=True)
 

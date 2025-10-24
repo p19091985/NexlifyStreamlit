@@ -5,17 +5,14 @@ import sys
 import os
 from pathlib import Path
 
-                                  
 try:
                                                   
     INSTALL_DIR = Path(__file__).parent.resolve()
-    PROJECT_ROOT = INSTALL_DIR.parent.resolve()                            
+    PROJECT_ROOT = INSTALL_DIR.parent.resolve()
 
-                                                                       
     if str(PROJECT_ROOT) not in sys.path:
         sys.path.insert(0, str(PROJECT_ROOT))
 
-                                         
     SCRIPT_CONFIG_INI = INSTALL_DIR / "config_banco_gui.py"
     SCRIPT_CREDENCIAIS = INSTALL_DIR / "gerador_credenciais_gui.py"
     SCRIPT_CONFIG_PY = INSTALL_DIR / "config_gui.py"
@@ -30,7 +27,6 @@ except FileNotFoundError as e:
 except Exception as e:
      messagebox.showerror("Erro Crítico", f"Erro ao configurar caminhos: {e}")
      sys.exit(1)
-                                  
 
 def launch_script(script_path: Path):
     """Lança um script Python como um processo separado."""
@@ -41,7 +37,6 @@ def launch_script(script_path: Path):
     except Exception as e:
         messagebox.showerror("Erro ao Lançar", f"Não foi possível iniciar o script '{script_path.name}':\n{e}")
 
-                                       
 class LauncherApp(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -78,7 +73,6 @@ class LauncherApp(tk.Tk):
                                    command=lambda: launch_script(SCRIPT_CONFIG_PY))
         btn_config_py.pack(fill="x", pady=5)
 
-                            
 if __name__ == "__main__":
     app = LauncherApp()
     app.mainloop()

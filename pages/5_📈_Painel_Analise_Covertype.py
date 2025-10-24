@@ -15,7 +15,6 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticD
 from sklearn.neural_network import MLPClassifier
 import numpy as np
 
-                                                   
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 try:
@@ -23,22 +22,16 @@ try:
 except ImportError:
     st.warning("Não foi possível importar 'st_utils'. Funções de sessão e acesso podem não funcionar.")
 
-
     def st_check_session():
         pass
-
 
     def check_access(levels):
         pass
 
-                        
 st.set_page_config(page_title="Painel Análise Covertype", layout="wide")
-
-                                                 
 
 st_check_session()
 check_access([])
-
 
 def init_state():
     """Inicializa as variáveis de estado da sessão."""
@@ -48,9 +41,6 @@ def init_state():
         st.session_state.cov_full_df = None
     if 'cov_analysis_run' not in st.session_state:
         st.session_state.cov_analysis_run = False
-
-
-                                                       
 
 @st.cache_data
 def export_covertype_to_csv():
@@ -82,7 +72,6 @@ def export_covertype_to_csv():
         st.error(f"Não foi possível salvar o dataset Covertype: {e}")
         return None
 
-
 @st.cache_data
 def get_statistical_summary(_df):
     """
@@ -108,7 +97,6 @@ def get_statistical_summary(_df):
 
     return info_df, describe_df, target_distribution
 
-
 def get_balanced_sample(df, n_per_class=1000, target_col='Cover_Type'):
     """
     Extrai uma amostra balanceada do dataframe para acelerar o treinamento.
@@ -119,25 +107,19 @@ def get_balanced_sample(df, n_per_class=1000, target_col='Cover_Type'):
         n_per_class = min_samples
         st.warning(f"Ajustando amostragem para {n_per_class} por classe (mínimo encontrado).")
 
-                                        
-                                                           
     sampled_dfs = []
                             
     grouped = df.groupby(target_col)
 
-                                     
     for group_name, group_df in grouped:
                                        
         sample = group_df.sample(n=n_per_class, random_state=42)
                                     
         sampled_dfs.append(sample)
 
-                                                       
     balanced_sample_df = pd.concat(sampled_dfs)
 
-                                                
     return balanced_sample_df
-
 
 @st.cache_data
 def run_classification_models(_df):
@@ -153,7 +135,6 @@ def run_classification_models(_df):
     with st.spinner("Realizando amostragem balanceada (7000 amostras)..."):
         df_sample = get_balanced_sample(_df, n_per_class=1000, target_col=target_col)
 
-                                                                               
     X = df_sample.drop(target_col, axis=1)
     y = df_sample[target_col]
 
@@ -218,16 +199,11 @@ def run_classification_models(_df):
     results_df = pd.DataFrame(results).sort_values(by="F1-Score (Weighted)", ascending=False)
     return results_df
 
-
-                                           
-
 def next_page():
     st.session_state.cov_page_number += 1
 
-
 def prev_page():
     st.session_state.cov_page_number -= 1
-
 
 def load_and_store_data(uploaded_file, default_csv_path):
     """Carrega o DataFrame e o armazena no session_state"""
@@ -253,16 +229,12 @@ def load_and_store_data(uploaded_file, default_csv_path):
         st.session_state.cov_analysis_run = False
         st.stop()
 
-
 def run_analysis_callback():
     """Callback para o botão 'Iniciar Análise'. Apenas ativa a flag."""
     if st.session_state.cov_full_df is not None:
         st.session_state.cov_analysis_run = True
     else:
         st.error("Por favor, carregue os dados no 'Passo 1' antes de iniciar a análise.")
-
-
-                                      
 
 def render_uploader_panel():
     """Renderiza o 'Passo 1', painel de upload e carregamento de dados."""
@@ -281,7 +253,6 @@ def render_uploader_panel():
         if st.button("Carregar Dados", type="primary", key="covertype_load"):
             load_and_store_data(uploaded_file, default_csv_path)
             st.rerun()
-
 
 def render_paginated_table():
     """Renderiza a tabela com paginação."""
@@ -312,7 +283,6 @@ def render_paginated_table():
     col1.button("Anterior", on_click=prev_page, disabled=(current_page == 0), width='stretch')
     col3.button("Próximo", on_click=next_page, disabled=(current_page >= total_pages - 1), width='stretch')
 
-
 def render_analysis_results():
     """
     Renderiza o Resumo Estatístico e a Tabela de Classificação
@@ -322,7 +292,6 @@ def render_analysis_results():
         st.info("Clique em 'Iniciar Análise' acima para gerar os relatórios.")
         return
 
-                                   
     with st.spinner("Gerando resumo estatístico..."):
         st.subheader("Análise Exploratória e Resumo dos Dados")
 
@@ -342,7 +311,6 @@ def render_analysis_results():
         col2.bar_chart(target_dist)
         st.markdown("---")
 
-                                            
     with st.spinner("Treinando 10 modelos de classificação (pode levar alguns minutos)..."):
         st.subheader("Comparação de Modelos de Classificação (em 7000 amostras)")
 
@@ -361,7 +329,6 @@ def render_analysis_results():
             st.dataframe(formatted_df, width='stretch', hide_index=True)
         else:
             st.error("Não foi possível gerar os resultados da classificação.")
-
 
 def render_main_panel():
     """Renderiza o painel principal orquestrando as sub-funções."""
@@ -386,8 +353,6 @@ def render_main_panel():
 
         render_analysis_results()
 
-
-                                     
 if __name__ == "__main__":
     init_state()
     render_main_panel()

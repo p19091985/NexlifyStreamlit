@@ -2,9 +2,8 @@ import tkinter as tk
 from tkinter import ttk, messagebox             
 import os
 import re
-from pathlib import Path                          
+from pathlib import Path
 
-                                                            
 BLOCK_DEFINITIONS = {  
     'sqlserver': ['type', 'host', 'port', 'dbname', 'user', 'password'],  
     'sqlite': ['type', 'path'],  
@@ -13,7 +12,6 @@ BLOCK_DEFINITIONS = {
     'mariadb': ['type', 'host', 'port', 'dbname', 'user', 'password']   
 }
 
-                                                      
 class DatabaseConfigManager:  
     BLOCK_DEFINITIONS = BLOCK_DEFINITIONS                                 
 
@@ -33,12 +31,10 @@ class DatabaseConfigManager:
 
         self.blocks = []
         self.current_active_block_name = None
-        type_regex = re.compile(r"^\s*(#)?\s*type\s*=\s*(\w+)")  
+        type_regex = re.compile(r"^\s*(#)?\s*type\s*=\s*(\w+)")
 
-                                                                          
         key_val_regex = re.compile(r"^\s*(#)?\s*(\w+)\s*=")
 
-                                                                   
         block_ranges = []
         current_block_start = -1
         current_db_type = None
@@ -57,7 +53,6 @@ class DatabaseConfigManager:
                         'line_num': current_block_start + 1
                     })
 
-                                        
                 current_is_commented = type_match.group(1) is not None
                 current_db_type = type_match.group(2)
                 current_block_start = i
@@ -71,14 +66,12 @@ class DatabaseConfigManager:
                 'line_num': current_block_start + 1
             })
 
-                                                               
         for block_info in block_ranges:
             db_type = block_info['type']
             if db_type in self.BLOCK_DEFINITIONS:   
                 expected_keys = self.BLOCK_DEFINITIONS[db_type]   
-                line_indices = {}                            
+                line_indices = {}
 
-                                                                           
                 for line_index in range(block_info['start'], block_info['end']):
                     line = self.lines[line_index].strip()
                     key_match = key_val_regex.match(line)
@@ -86,10 +79,8 @@ class DatabaseConfigManager:
                         key_found = key_match.group(2)
                                                                                               
                         if key_found in expected_keys and key_found not in line_indices:   
-                            line_indices[key_found] = line_index   
+                            line_indices[key_found] = line_index
 
-                                                                                     
-                                                                                                               
                 block_name = f"{db_type} (Linha {block_info['line_num']})"
                 self.blocks.append({'name': block_name, 'indices_dict': line_indices})                  
 
@@ -97,7 +88,6 @@ class DatabaseConfigManager:
                     self.current_active_block_name = block_name
             else:
                  print(f"Aviso: Tipo de banco desconhecido '{db_type}' na linha {block_info['line_num']} ignorado.")
-
 
     def get_all_dbs(self):
         return [block['name'] for block in self.blocks]
@@ -125,19 +115,16 @@ class DatabaseConfigManager:
                     if not content.startswith('#'):                     
                        new_line = f"{indent_space}#{content}"  
                     else:
-                       new_line = f"{indent_space}{content}"                    
+                       new_line = f"{indent_space}{content}"
 
-                                                                         
-                self.lines[line_index] = new_line.rstrip() + os.linesep   
+                self.lines[line_index] = new_line.rstrip() + os.linesep
 
-                                                     
         self.current_active_block_name = name_to_activate
 
     def save_config(self):
         with open(self.filepath, 'w', encoding='utf-8') as f:
             f.writelines(self.lines)
 
-                                                  
 class App(tk.Tk):
     def __init__(self, manager: DatabaseConfigManager):
         super().__init__()
@@ -151,15 +138,13 @@ class App(tk.Tk):
 
         self.selected_db = tk.StringVar()  
                                         
-        self.status_label = ttk.Label(self, text="", style="Status.TLabel")  
+        self.status_label = ttk.Label(self, text="", style="Status.TLabel")
 
-                                         
         main_container = ttk.Frame(self, padding=15)   
         main_container.pack(fill="both", expand=True)   
 
         self.create_widgets(main_container)                    
         self._load_and_populate()                                          
-
 
     def _setup_styles(self):
         """Configura estilos ttk."""
@@ -195,17 +180,14 @@ class App(tk.Tk):
 
     def create_widgets(self, parent):                
                                 
-        ttk.Label(parent, text="Selecione a conexão de banco de dados para ATIVAR:", style="Header.TLabel").pack(anchor="w", pady=(0,5))  
+        ttk.Label(parent, text="Selecione a conexão de banco de dados para ATIVAR:", style="Header.TLabel").pack(anchor="w", pady=(0,5))
 
-                            
         self.radio_frame = ttk.LabelFrame(parent, text="Conexões Encontradas", relief="sunken", borderwidth=1, padding=15)   
-        self.radio_frame.pack(fill="both", expand=True, pady=10)   
+        self.radio_frame.pack(fill="both", expand=True, pady=10)
 
-                                         
         self.save_button = ttk.Button(parent, text="Salvar e Ativar Selecionado", command=self.save_selection, style="Success.TButton", state="disabled")                        
-        self.save_button.pack(pady=5, fill="x", ipady=5)  
+        self.save_button.pack(pady=5, fill="x", ipady=5)
 
-                                
         reload_button = ttk.Button(parent, text="Recarregar banco.ini", command=self._load_and_populate)
         reload_button.pack(pady=5, fill="x")
 
@@ -232,8 +214,7 @@ class App(tk.Tk):
                  variable=self.selected_db,   
                  value=db_name   
              )
-             rb.pack(anchor="w", pady=2)  
-                                                                                     
+             rb.pack(anchor="w", pady=2)
 
     def save_selection(self):  
         chosen_db = self.selected_db.get()   
@@ -244,32 +225,27 @@ class App(tk.Tk):
         try:  
             self.manager.activate_db(chosen_db)  
             self.manager.save_config()  
-            self.status_label.config(text=f"Sucesso! '{chosen_db}' agora está ativo no arquivo banco.ini.", foreground="green")                        
+            self.status_label.config(text=f"Sucesso! '{chosen_db}' agora está ativo no arquivo banco.ini.", foreground="green")
 
-                                                                          
             self.manager.load_config()  
                                      
             self.selected_db.set(self.manager.get_active_db())  
                                                                               
             self._update_radio_buttons()   
 
-
         except Exception as e:  
             self.show_error(f"Erro ao salvar: {e}")  
 
     def show_error(self, message):  
         self.status_label.config(text=message, foreground="red")  
-        messagebox.showerror("Erro", message, parent=self)  
+        messagebox.showerror("Erro", message, parent=self)
 
-
-                                                     
 if __name__ == "__main__":  
                                                            
     script_dir = os.path.dirname(os.path.abspath(__file__))  
     root_dir = os.path.dirname(script_dir)   
-    ini_path = os.path.join(root_dir, "banco.ini")   
+    ini_path = os.path.join(root_dir, "banco.ini")
 
-                                                      
     if not os.path.exists(ini_path):  
         try:  
                                                          
@@ -304,9 +280,8 @@ path = meu_banco.db
 """)
         except Exception as e:   
              messagebox.showerror("Erro Crítico", f"Não foi possível criar 'banco.ini' em {ini_path}: {e}")   
-             exit()  
+             exit()
 
-                               
     config_manager = DatabaseConfigManager(filepath=ini_path)  
     app = App(config_manager)  
     app.mainloop()  

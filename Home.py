@@ -4,7 +4,6 @@ import streamlit as st
 import config
 from persistencia import auth, database, logger
 
-
 def validar_configuracoes():
     """
     Verifica se a combinação de flags no arquivo config.py é lógica e válida.
@@ -54,7 +53,6 @@ def validar_configuracoes():
                 "\n2. Desabilite a inicialização automática: `INITIALIZE_DATABASE_ON_STARTUP = False`")
         st.stop()
 
-
 validar_configuracoes()
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
@@ -80,7 +78,6 @@ if 'user_info' not in st.session_state:
     st.session_state.user_info = None
 if 'login_attempts' not in st.session_state:
     st.session_state.login_attempts = 0
-
 
 @st.dialog("Autenticação Necessária", dismissible=False)
 def login_dialog():
@@ -126,9 +123,6 @@ def login_dialog():
                     st.warning(f"Você tem {remaining} tentativa(s) restante(s).")
                 else:
                     st.error("Acesso bloqueado!")
-                                                                                             
-                                                       
-
 
 st.title("🚀 Painel de Controle Moderno")
 st.header("Sistema de Demonstração")

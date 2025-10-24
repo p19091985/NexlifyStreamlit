@@ -4,30 +4,21 @@ import config
 from persistencia.repository import GenericRepository
 from utils.st_utils import st_check_session, check_access
 
-                                                       
-
 st.set_page_config(page_title="Gerenciador de Gatos", layout="wide")
 
 st_check_session()
 check_access([])
-
-                                                
 
 if not config.DATABASE_ENABLED:
     st.title("🐱 Gerenciador de Espécies de Gatos")
     st.warning("Funcionalidade indisponível: O banco de dados está desabilitado no arquivo de configuração.")
     st.stop()
 
-                                                          
-
 if "show_form" not in st.session_state:
     st.session_state.show_form = False
 
 if "editing_item" not in st.session_state:
     st.session_state.editing_item = None
-
-
-                                                     
 
 def get_all_gatos():
     """Busca todas as espécies de gatos no banco de dados."""
@@ -38,14 +29,12 @@ def get_all_gatos():
         st.error(f"Não foi possível carregar as espécies. Detalhe: {e}")
         return pd.DataFrame()
 
-
 def add_gato(nome, origem, temperamento):
     """Adiciona uma nova espécie de gato ao banco de dados."""
     df = pd.DataFrame([{'nome_especie': nome.strip(),
                         'pais_origem': origem.strip(),
                         'temperamento': temperamento.strip()}])
     GenericRepository.write_dataframe_to_table(df, 'especie_gatos')
-
 
 def update_gato(item_id, nome, origem, temperamento):
     """Atualiza uma espécie de gato existente no banco de dados."""
@@ -55,33 +44,26 @@ def update_gato(item_id, nome, origem, temperamento):
     where_conditions = {'id': int(item_id)}
     GenericRepository.update_table('especie_gatos', update_values, where_conditions)
 
-
 def delete_gato(item_id):
     """Exclui uma espécie de gato do banco de dados."""
     where_conditions = {'id': int(item_id)}
     GenericRepository.delete_from_table('especie_gatos', where_conditions)
-
-
-                                           
 
 def show_add_form():
     """Ativa o modo "Adicionar", mostrando o formulário vazio."""
     st.session_state.show_form = True
     st.session_state.editing_item = None
 
-
 def show_edit_form(item_data):
     """Ativa o modo "Editar", mostrando o formulário preenchido."""
     st.session_state.show_form = True
     st.session_state.editing_item = item_data
-
 
 def close_form_and_rerun():
     """Fecha o formulário e recarrega a página."""
     st.session_state.show_form = False
     st.session_state.editing_item = None
     st.rerun()
-
 
 def handle_save(nome, origem, temperamento):
     """Processa o clique no botão 'Salvar' do formulário."""
@@ -103,7 +85,6 @@ def handle_save(nome, origem, temperamento):
     except Exception as e:
         st.error(f"Erro ao salvar: {e}")
 
-
 def handle_delete(item_data):
     """Processa o clique no botão 'Confirmar Exclusão'."""
     try:
@@ -112,9 +93,6 @@ def handle_delete(item_data):
         st.rerun()
     except Exception as e:
         st.error(f"Erro ao excluir: {e}")
-
-
-                                                  
 
 def render_form():
     """Desenha o formulário de Adicionar/Editar."""
@@ -137,7 +115,6 @@ def render_form():
                 handle_save(nome, origem, temperamento)
             if cancelled:
                 close_form_and_rerun()
-
 
 def render_table():
     """Desenha a tabela com os dados e os botões de ação."""
@@ -177,9 +154,6 @@ def render_table():
             on_click=handle_delete,
             args=(row_data,)
         )
-
-
-                                               
 
 st.title("🐱 Gerenciador de Espécies de Gatos")
 st.markdown("Use a tabela abaixo para visualizar, editar ou excluir espécies.")
