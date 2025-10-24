@@ -18,7 +18,7 @@ def st_check_session():
 
                                             
     if config.USE_LOGIN:
-        st.sidebar.divider()
+        #st.sidebar.divider()
         st.sidebar.title("Painel de Controle")
         st.sidebar.markdown(f"**Usuário:** `{st.session_state.user_info['name']}`")
         st.sidebar.markdown(f"**Perfil:** `{st.session_state.user_info['access_level']}`")
