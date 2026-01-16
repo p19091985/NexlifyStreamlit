@@ -1,66 +1,76 @@
 import streamlit as st
 import sys
 import os
+import logging
 from utils.st_utils import st_check_session, check_access
+
+logger = logging.getLogger(__name__)
 
 st.set_page_config(page_title="Painel Modelo", layout="wide")
 
 st_check_session()
 check_access([])
+logger.info("Acessando página: Painel Modelo (Template)")
 
 def handle_test_interaction():
     """
     Função chamada quando o botão "Testar Interação" é clicado.
-    (Esta lógica veio do antigo 'painel_modelo_controller.py')
+    Demonstração simples de callback.
     """
     try:
-        usuario_atual = st.session_state.user_info
-        st.success(f"Olá, {usuario_atual['name']}! A interatividade está funcionando corretamente.")
+        st.success(f"A interatividade está funcionando corretamente.")
+        st.info("Sua sessão está ativa.")
+        logger.info("Teste de interação executado com sucesso.")
         st.balloons()
     except Exception as e:
+        logger.error(f"Erro no teste de interação: {e}")
         st.error(f"Erro ao testar interação: {e}")
 
 def render_main_panel():
     """
-    Desenha os componentes visuais da página na tela.
-    (Esta lógica veio do antigo 'painel_modelo_view.py' e foi atualizada)
+    Desenha os componentes visuais da página de modelo.
     """
-    st.title("📋 Estrutura de um Novo Painel (Método Simplificado)")
+    st.title("📋 Estrutura de Novo Painel (Arquitetura JSON)")
 
     with st.container(border=True):
-        st.subheader("Guia Rápido (Estrutura de Arquivo Único)")
+        st.subheader("Guia Rápido: Criando Páginas no Padrão v3.0")
         st.markdown("""
-        Este painel serve como um **ponto de partida** para novas telas no padrão simplificado.
-        Para criar uma nova funcionalidade (como Gatos ou Usuários), basta copiar este arquivo.
+        Este arquivo (`2_📋_Painel_Modelo.py`) serve como template oficial para novas funcionalidades.
+        O foco agora é **Simplicidade** e **Segurança de Dados** com arquitetura serverless.
 
-        **Passos para criar uma nova página de CRUD:**
+        **Fluxo de Criação Sugerido:**
 
-        1.  **Copie este Arquivo:** Copie `2_📋_Painel_Modelo.py` para um novo arquivo em `pages/`
-            (ex: `pages/4_📦_Meus_Itens.py`).
+        1.  **Clonagem:**
+            Copie este arquivo para `pages/nome_da_sua_pagina.py`.
 
-        2.  **Seção 1: Configuração:** Ajuste o `st.set_page_config` e as permissões em `check_access`.
+        2.  **Configuração:**
+            Mantenha `st_check_session()` e `check_access([])` no topo.
 
-        3.  **Seção 2: Estado:** Adicione as variáveis do `st.session_state` que você precisa
-            (ex: `show_form` e `editing_item`).
+        3.  **Acesso a Dados (Thread-Safe):**
+            Para ler ou gravar dados, use sempre o `GenericRepository`:
+            ```python
+            from persistencia.repository import GenericRepository
 
-        4.  **Seção 3: Lógica de BD:** Crie suas funções de CRUD (ex: `get_all_items`, `add_item`,
-            `update_item`, `delete_item`) usando o `GenericRepository`.
+            # Leitura
+            df = GenericRepository.read_table_to_dataframe("tabela_exemplo")
 
-        5.  **Seção 4: Lógica de UI (Callbacks):** Crie as funções que os botões irão chamar
-            (ex: `handle_save`, `handle_delete`, `show_add_form`, `close_form_and_rerun`).
+            # Escrita (Atomicamente Segura com FileLock)
+            GenericRepository.write_dataframe_to_table(novo_df, "tabela_exemplo")
+            ```
 
-        6.  **Seção 5: Renderização (View):** Crie as funções que desenham a interface
-            (ex: `render_form` e `render_table`).
+        4.  **Estado da Aplicação:**
+             Use `st.session_state` para manter dados temporários.
 
-        7.  **Seção 6: Execução Principal:** Adapte o código no final do arquivo para
-            chamar suas funções de renderização na ordem correta.
+        5.  **Interface (UI):**
+            Construa a interface de cima para baixo.
         """)
         st.divider()
 
         st.button(
-            "Testar Interação",
+            "Testar Ambiente de Execução",
             type="primary",
-            on_click=handle_test_interaction
+            on_click=handle_test_interaction,
+            help="Clique para verificar se o callback e o session_state estão respondendo."
         )
 
 render_main_panel()

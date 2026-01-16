@@ -1,50 +1,25 @@
 import streamlit as st
 import logging
 import config
+from typing import List, Optional, Any
 
-def st_check_session():
+def st_check_session() -> None:
     """
-    Verifica se o usuário está logado.
-    Se não, redireciona para a tela de login.
-    Se sim, e se o login estiver ativado, renderiza a barra lateral com
-    informações do usuário e botão de logout.
-    A navegação de páginas é gerenciada automaticamente pelo Streamlit.
+    Função de compatibilidade (No-Op).
+    O login foi removido, então esta função apenas garante que o user_info exista.
     """
     if 'user_info' not in st.session_state or st.session_state.user_info is None:
-        st.warning("Acesso negado. Por favor, faça o login.")
-        st.switch_page("Home.py")
-        st.stop()
+         st.session_state.user_info = {
+            'username': 'guest',
+            'name': 'Visitante',
+            'access_level': 'Public Access'
+        }
+    # Nenhuma interface é renderizada aqui.
 
-    if config.USE_LOGIN:
-                             
-        st.sidebar.title("Painel de Controle")
-        st.sidebar.markdown(f"**Usuário:** `{st.session_state.user_info['name']}`")
-        st.sidebar.markdown(f"**Perfil:** `{st.session_state.user_info['access_level']}`")
 
-        if st.sidebar.button("🚪 Sair", width='stretch', type="primary"):
-            logger = logging.getLogger("main_app")
-            logger.info(f"Usuário '{st.session_state.user_info['username']}' fez logout.")
-
-            for key in st.session_state.keys():
-                del st.session_state[key]
-
-            st.switch_page("Home.py")
-            st.stop()
-
-def check_access(allowed_roles: list):
+def check_access(allowed_roles: List[str]) -> bool:
     """
     Verifica se o nível de acesso do usuário logado está na lista de perfis permitidos.
-    Esta função deve ser chamada DEPOIS de st_check_session.
+    (Sempre retorna True pois o controle de acesso foi removido)
     """
-    if not allowed_roles:
-        return True
-
-    user_access_level = st.session_state.user_info.get('access_level')
-    if user_access_level not in allowed_roles:
-        st.error("Você não tem permissão para acessar esta página.")
-
-        st.image("https://http.cat/401", width='stretch')
-
-        st.stop()
-
     return True

@@ -1,15 +1,18 @@
-                                      
 
 import streamlit as st
 import toml
 import pandas as pd
 import numpy as np
 from pathlib import Path
+import logging
 from utils.st_utils import st_check_session, check_access
 
-st.set_page_config(page_title="Santuário do Design", layout="wide")
+logger = logging.getLogger(__name__)
+
+st.set_page_config(page_title="Personalizador de Temas", layout="wide")
 st_check_session()
-check_access(['Administrador Global', 'Gerente de TI'])
+logger.info("Acessando página: Editor de Temas")
+# check_access removed (open system)
 
 CONFIG_PATH = Path(".streamlit/config.toml")
 
@@ -112,26 +115,30 @@ def save_config(theme_settings):
         full_config["theme"] = theme_settings
         with open(CONFIG_PATH, "w") as f:
             toml.dump(full_config, f)
-        st.toast("Tema salvo com sucesso!", icon="✅")
-        st.success("O tema foi atualizado. Recarregue a página (pressione 'R') para aplicar as mudanças globalmente.")  
+        logger.info("Tema salvo com sucesso.")
+        st.toast("Tema salvo!", icon="💾")
+        st.success("Configuração atualizada. Pressione **R** para atualizar a visualização.")  
         st.balloons()
     except Exception as e:
-        st.error(f"Não foi possível salvar a configuração: {e}")
+        logger.error(f"Erro ao salvar tema: {e}")
+        st.error(f"Erro ao salvar: {e}")
 
 def restore_defaults():
     try:
-        if not CONFIG_PATH.is_file(): st.toast("Nenhum tema customizado para restaurar.", icon="ℹ️"); return
+        if not CONFIG_PATH.is_file(): st.toast("Já está no padrão.", icon="ℹ️"); return
         full_config = toml.load(CONFIG_PATH)
         if "theme" in full_config:
             del full_config["theme"]
             with open(CONFIG_PATH, "w") as f:  
                 toml.dump(full_config, f)  
-            st.toast("Tema padrão restaurado!", icon="✅")
-            st.success("Recarregue a página para ver o tema padrão do Streamlit.")
+            logger.info("Tema restaurado para o padrão.")
+            st.toast("Tema padrão restaurado!", icon="↩️")
+            st.success("Tema resetado para o padrão do Streamlit.")
         else:
-            st.toast("Nenhum tema customizado encontrado para restaurar.", icon="ℹ️")
+            st.toast("Nenhuma personalização encontrada.", icon="ℹ️")
     except Exception as e:
-        st.error(f"Não foi possível restaurar os padrões: {e}")  
+        logger.error(f"Erro ao restaurar tema: {e}")
+        st.error(f"Erro ao restaurar: {e}")  
 
 if 'current_theme' not in st.session_state:
     st.session_state.current_theme = load_config()
@@ -140,70 +147,68 @@ def update_theme_value(theme_key, widget_key):
     if widget_key in st.session_state:
         st.session_state.current_theme[theme_key] = st.session_state[widget_key]
 
-st.title("🌟 Santuário do Design")
-st.caption("O centro de comando definitivo para a personalização visual da sua aplicação.")
+st.title("🎨 Personalizador de Temas")
+st.caption("Ajuste a identidade visual da sua aplicação em tempo real.")
 
 main_cols = st.columns([1, 1.4])
 
 with main_cols[0]:
-    st.header("⚙️ Ferramentas de Customização")
+    st.header("Ferramentas")
 
-    with st.expander("🎨 Galeria de Temas Predefinidos", expanded=True):
-        theme_category = st.selectbox("Selecione uma categoria", options=PRESET_THEMES.keys())
-        theme_name = st.selectbox("Selecione um tema", options=PRESET_THEMES[theme_category].keys())  
+    with st.expander("📚 Galeria de Estilos", expanded=True):
+        theme_category = st.selectbox("Categoria", options=PRESET_THEMES.keys())
+        theme_name = st.selectbox("Tema", options=PRESET_THEMES[theme_category].keys())  
 
-        if st.button("Aplicar Tema da Galeria", width='stretch'):
+        if st.button("Aplicar Pré-definição", width='stretch'):
             st.session_state.current_theme = PRESET_THEMES[theme_category][theme_name].copy()
             st.rerun()
 
-    tab_colors, tab_fonts, tab_export = st.tabs(["Cores", "Fontes", "Exportar"])
+    tab_colors, tab_fonts, tab_export = st.tabs(["Cores", "Tipografia", "Exportar"])
 
     with tab_colors:
-        st.subheader("Ajuste Fino de Cores")
-        st.color_picker("Cor Primária", value=st.session_state.current_theme.get("primaryColor", "#FF4B4B"),  
+        st.subheader("Paleta de Cores")
+        st.color_picker("Detalhes (Primary)", value=st.session_state.current_theme.get("primaryColor", "#FF4B4B"),  
                         key="picker_primaryColor", on_change=update_theme_value,  
                         kwargs={'theme_key': 'primaryColor', 'widget_key': 'picker_primaryColor'})  
-        st.color_picker("Fundo Principal", value=st.session_state.current_theme.get("backgroundColor", "#FFFFFF"),
+        st.color_picker("Fundo (Background)", value=st.session_state.current_theme.get("backgroundColor", "#FFFFFF"),
                         key="picker_backgroundColor", on_change=update_theme_value,
                         kwargs={'theme_key': 'backgroundColor', 'widget_key': 'picker_backgroundColor'})
-        st.color_picker("Fundo Secundário",  
+        st.color_picker("Fundo Lateral (Sidebar)",  
                         value=st.session_state.current_theme.get("secondaryBackgroundColor", "#F0F2F6"),  
                         key="picker_secondaryBackgroundColor", on_change=update_theme_value,  
                         kwargs={'theme_key': 'secondaryBackgroundColor',  
                                 'widget_key': 'picker_secondaryBackgroundColor'})  
-        st.color_picker("Cor do Texto", value=st.session_state.current_theme.get("textColor", "#31333F"),
+        st.color_picker("Texto", value=st.session_state.current_theme.get("textColor", "#31333F"),
                         key="picker_textColor", on_change=update_theme_value,
                         kwargs={'theme_key': 'textColor', 'widget_key': 'picker_textColor'})
 
     with tab_fonts:
-        st.subheader("Tipografia")
+        st.subheader("Fonte")
         font_options = ["sans serif", "serif", "monospace"]
-        st.selectbox("Família da Fonte", options=font_options,  
+        st.selectbox("Família", options=font_options,  
                      index=font_options.index(st.session_state.current_theme.get("font", "sans serif")),  
                      key="selector_font", on_change=update_theme_value,  
                      kwargs={'theme_key': 'font', 'widget_key': 'selector_font'})  
-        st.caption("A fonte será aplicada globalmente após salvar e recarregar a página.")
 
     with tab_export:  
-        st.subheader("📥 Exportar Configuração TOML")
-        st.markdown("Copie o código abaixo e cole no seu arquivo `.streamlit/config.toml`.")
+        st.subheader("Código TOML")
+        st.markdown("Use no seu `.streamlit/config.toml`.")
         toml_string = "[theme]\n"
         for key, value in st.session_state.current_theme.items():
             toml_string += f'{key} = "{value}"\n'
         st.code(toml_string, language="toml")
 
     st.divider()
-    st.subheader("⚡ Ações Finais")
     action_cols = st.columns(2)
 
-    if action_cols[0].button("💾 Salvar Tema na Aplicação", type="primary", width='stretch'):  
+    if action_cols[0].button("💾 Salvar Globalmente", type="primary", width='stretch'):  
         save_config(st.session_state.current_theme)
 
-    if action_cols[1].button("🗑️ Restaurar Padrão", width='stretch'):
+    if action_cols[1].button("🗑️ Resetar", width='stretch'):
         restore_defaults()
 
 with main_cols[1]:
-    st.header("👁️ Pré-visualização Dinâmica")
+    st.header("Pré-visualização")
     preview_css = f"""
     <style>
         .preview-container {{
@@ -222,29 +227,27 @@ with main_cols[1]:
 
     with st.container():
         st.markdown('<div class="preview-container">', unsafe_allow_html=True)
-        st.subheader("Componentes do Streamlit")
-        st.write("Veja como os elementos se comportam com o tema selecionado.")
-        st.info("Esta é uma mensagem de informação (st.info).")
-        st.success("Operação concluída com sucesso (st.success).")
-        st.warning("Atenção: verifique os dados (st.warning).")
-        st.error("Ocorreu um erro na validação (st.error).")  
-        st.markdown("##### Gráfico (st.line_chart)")
-        chart_data = pd.DataFrame(np.random.randn(20, 3), columns=['Marketing', 'Vendas', 'Suporte'])
+        st.subheader("Exemplo de Componentes")
+        st.info("Mensagem informativa.")
+        st.success("Mensagem de sucesso.")
+        st.warning("Mensagem de aviso.")
+        st.error("Mensagem de erro.")  
+        st.markdown("**Gráfico de Linha**")
+        chart_data = pd.DataFrame(np.random.randn(20, 3), columns=['A', 'B', 'C'])
         st.line_chart(chart_data)
-        st.progress(75, text="Barra de progresso (st.progress)")
-        st.slider("Slider", 0, 100, 50, help="st.slider")
+        st.progress(75, text="Progresso")
+        st.slider("Controle deslizante", 0, 100, 50)
         btn_cols = st.columns(2)
 
-        btn_cols[0].button("Botão Primário", type="primary", width='stretch')
-        btn_cols[1].button("Botão Secundário", width='stretch')
+        btn_cols[0].button("Primário", type="primary", width='stretch')
+        btn_cols[1].button("Secundário", width='stretch')
 
-        st.markdown("##### Tabela (st.dataframe)")  
+        st.markdown("**Tabela de Dados**")  
         df = pd.DataFrame({
-            "Produto": ["App A", "App B", "App C", "App D"],
-            "Versão": ["1.2.0", "2.0.1", "3.4.0", "4.1.2"],
-            "Status": ["✅ Ativo", "✅ Ativo", "⚠️ Manutenção", "❌ Descontinuado"]
+            "Item": ["A", "B", "C"],
+            "Status": ["✅", "⚠️", "❌"]
         })
 
         st.dataframe(df,width='stretch' , hide_index=True)
 
-        st.markdown('</div>', unsafe_allow_html=True)  
+        st.markdown('</div>', unsafe_allow_html=True) 

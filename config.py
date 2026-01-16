@@ -11,9 +11,7 @@ _parser = configparser.ConfigParser()
 if not _config_path.is_file():
     print(f"Aviso: '{_config_path.name}' não encontrado. Criando arquivo padrão.", file=sys.stderr)
     default_ini_content = """[Settings]
-database_enabled = True
-initialize_database_on_startup = True
-use_login = True
+use_login = False
 redirect_console_to_log = False
 enable_theme_menu = True
 log_level = DEBUG
@@ -47,9 +45,11 @@ def _get_string_setting(key, default=""):
     except (configparser.Error, ValueError):
         return default
 
-DATABASE_ENABLED = _get_boolean_setting('database_enabled', default=True)
-INITIALIZE_DATABASE_ON_STARTUP = _get_boolean_setting('initialize_database_on_startup', default=True)
-USE_LOGIN = _get_boolean_setting('use_login', default=True)
+# Database/Storage is fully enabled via JSON logic
+DATABASE_ENABLED = True 
+
+# Login system completely removed
+USE_LOGIN = False
 REDIRECT_CONSOLE_TO_LOG = _get_boolean_setting('redirect_console_to_log', default=False)
 ENABLE_THEME_MENU = _get_boolean_setting('enable_theme_menu', default=True)
 
