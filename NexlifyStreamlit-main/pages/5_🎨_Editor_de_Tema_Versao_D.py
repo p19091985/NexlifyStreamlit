@@ -103,7 +103,7 @@ def load_config():
         config = toml.load(CONFIG_PATH)
         return config.get("theme", PRESET_THEMES["☀️ Temas Claros"]["Padrão Streamlit"])
     except Exception:
-        return PRESET_THEMES["☀️ Temas Claros"]["Padrão Streamlit"]  
+        return PRESET_THEMES["☀️ Temas Claros"]["Padrão Streamlit"]
 
 def save_config(theme_settings):
     try:
@@ -131,7 +131,7 @@ def restore_defaults():
         else:
             st.toast("Nenhum tema customizado encontrado para restaurar.", icon="ℹ️")
     except Exception as e:
-        st.error(f"Não foi possível restaurar os padrões: {e}")  
+        st.error(f"Não foi possível restaurar os padrões: {e}")
 
 if 'current_theme' not in st.session_state:
     st.session_state.current_theme = load_config()

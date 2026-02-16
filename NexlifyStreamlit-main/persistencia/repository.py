@@ -124,6 +124,18 @@ class GenericRepository:
             raise
 
     @staticmethod
+    def read_vegetais_com_tipo():
+        """Busca todos os vegetais com o nome do tipo (usa nomes minúsculos)."""
+                                                 
+        query = """
+                SELECT v.id, v.nome, tv.nome as tipo
+                FROM vegetais v
+                         LEFT JOIN tipos_vegetais tv ON v.id_tipo = tv.id
+                ORDER BY v.nome;
+                """
+        return GenericRepository.execute_query_to_dataframe(query)
+
+    @staticmethod
     def read_table_to_dataframe(table_name: str, columns: list = None, where_conditions: dict = None):
         """Lê dados de uma tabela (espera nome da tabela minúsculo) e retorna DataFrame."""
         if not config.DATABASE_ENABLED:
