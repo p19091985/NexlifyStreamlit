@@ -139,7 +139,7 @@ NexlifyStreamlit/
 │   ├── 07_🔒_Gerenciar_Permissoes.py
 │   ├── 08_📄_Gerenciar_Paginas.py
 │   ├── 09_🎨_Editor_de_Tema.py
-│   ├── 10_✨_Alternar_Modos.py
+│   ├── 10_📖_Guia_Configuracao.py
 │   └── 11_ℹ️_Sobre.py
 │
 ├── persistencia/                    # 💾 Camada de dados
@@ -665,7 +665,7 @@ python -m pytest teste/test_db_connection.py -v
 | 07 | 🔒 **Gerenciar Permissões** | Atribuir/revogar permissões perfil↔página | Admin/Gerente |
 | 08 | 📄 **Gerenciar Páginas** | Registrar/editar/remover páginas do sistema | Admin/Gerente |
 | 09 | 🎨 **Editor de Tema** | Galeria de 30+ temas predefinidos com preview ao vivo | Admin/Gerente |
-| 10 | ✨ **Alternar Modos** | Configurações de modo de exibição | Admin/Gerente |
+| 10 | 📖 **Guia de Configuração** | Documentação das flags de configuração do sistema | Admin/Gerente |
 | 11 | ℹ️ **Sobre** | Informações sobre o sistema e versão | Todos |
 
 ---

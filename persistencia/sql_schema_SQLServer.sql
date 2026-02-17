@@ -108,7 +108,7 @@ INSERT INTO pagina (pagina_id, nome_arquivo, nome_amigavel) VALUES
 	 (7, N'07_🔒_Gerenciar_Permissoes.py', N'Gerenciar Permissões'),
 	 (8, N'08_📄_Gerenciar_Paginas.py', N'Gerenciar Páginas'),
 	 (9, N'09_🎨_Editor_de_Tema.py', 'Editor de Tema'),
-	 (10, N'10_✨_Alternar_Modos.py', 'Alternar Modos'),
+	 (10, N'10_📖_Guia_Configuracao.py', N'Guia de Configuração'),
 	 (11, N'11_ℹ️_Sobre.py', 'Sobre');
 SET IDENTITY_INSERT pagina OFF;
 

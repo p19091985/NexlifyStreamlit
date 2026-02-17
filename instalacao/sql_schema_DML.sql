@@ -60,7 +60,7 @@ INSERT INTO pagina (pagina_id, nome_arquivo, nome_amigavel) VALUES
 	 (7, '07_🔒_Gerenciar_Permissoes.py','Gerenciar Permissões'),
 	 (8, '08_📄_Gerenciar_Paginas.py','Gerenciar Páginas'),
 	 (9, '09_🎨_Editor_de_Tema.py','Editor de Tema'),
-	 (10, '10_✨_Alternar_Modos.py','Alternar Modos'),
+	 (10, '10_📖_Guia_Configuracao.py','Guia de Configuração'),
 	 (11, '11_ℹ️_Sobre.py','Sobre');
 
 -- 4. Permissões: Admin (perfil 1) e Gerência de TI (perfil 3) têm acesso a todas as páginas

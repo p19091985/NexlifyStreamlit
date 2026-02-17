@@ -12,7 +12,7 @@ LOGICAL_ORDER = [
     (7, 'Gerenciar_Permissoes', '🔒'),
     (8, 'Gerenciar_Paginas', '📄'),
     (9, 'Editor_de_Tema', '🎨'),
-    (10, 'Alternar_Modos', '✨'),
+    (10, 'Guia_Configuracao', '📖'),
     (11, 'Sobre', 'ℹ️')
 ]
 

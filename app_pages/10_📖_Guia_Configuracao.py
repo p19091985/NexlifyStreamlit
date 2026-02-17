@@ -2,7 +2,7 @@ import streamlit as st
 from utils.st_utils import st_check_session, check_access
 from pathlib import Path
 from components import servicos_gerenciador as servico
-st.set_page_config(page_title='Guia de Configuração', layout='wide', page_icon='⚙️')
+st.set_page_config(page_title='Guia de Configuração', layout='wide', page_icon='📖')
 st_check_session()
 try:
     allowed_roles = servico.get_allowed_roles_for_page(Path(__file__).name)
@@ -10,7 +10,7 @@ try:
 except Exception as e:
     st.error(f'Erro ao verificar permissões: {e}')
     st.stop()
-st.header('⚙️ Guia de Configuração e Modos de Operação')
+st.header('📖 Guia de Configuração')
 st.markdown('---')
 st.info('\n    Esta aplicação oferece flexibilidade através de flags de configuração no arquivo `config.py`.\n    Essas flags permitem ajustar o comportamento do sistema para diferentes ambientes,\n    como desenvolvimento, testes ou produção.\n')
 st.success('\n    **Sistema de Validação Integrado!**\n    Ao iniciar, a aplicação verifica automaticamente (`Home.py`) se as flags em `config.py`\n    formam uma combinação lógica. Combinações inválidas (ex: exigir login sem banco de dados)\n    impedirão a inicialização, exibindo uma mensagem de erro clara.\n')
